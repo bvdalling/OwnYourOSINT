@@ -1,0 +1,40 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title><%= title %></title>
+  <meta name="description" content="<%= description %>" />
+
+  <!-- Prevent theme flash before Tailwind loads -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('themeMode') || 'system';
+        var prefersDark =
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var isDark = saved === 'dark' || (saved === 'system' && prefersDark);
+        document.documentElement.classList.toggle('dark', isDark);
+      } catch (_) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="/assets/site.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          boxShadow: {
+            soft: '0 10px 30px rgba(0,0,0,0.08)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <script defer src="/assets/app.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+

@@ -1,0 +1,193 @@
+<div class="grid gap-8 lg:grid-cols-12 lg:items-start">
+  <div class="lg:col-span-8">
+    <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">Basics</h1>
+    <p class="mt-3 text-base leading-relaxed text-slate-700 dark:text-slate-300">
+      This page helps you decide what to protect, from whom, and what “good enough” looks like. We focus on reducing
+      exposure and hardening the accounts attackers most often target.
+    </p>
+
+    <section id="threat-model" class="mt-8 scroll-mt-24">
+      <h2 class="text-xl font-bold">A quick threat model</h2>
+      <p class="mt-2 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+        You don’t need paranoia; you need clarity. Answer these questions:
+      </p>
+      <ul class="mt-4 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+        <li><strong>What are you protecting?</strong> (accounts, finances, physical location, family)</li>
+        <li><strong>Who might target you?</strong> (ex-partner, scammer, stalker, random attacker)</li>
+        <li><strong>How could they get leverage?</strong> (password reuse, public records, social posts)</li>
+        <li><strong>What would “harm” look like?</strong> (account takeover, identity theft, threats, job impact)</li>
+      </ul>
+    </section>
+
+    <section id="osint" class="mt-10 scroll-mt-24">
+      <h2 class="text-xl font-bold">OSINT in one paragraph</h2>
+      <p class="mt-2 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+        Open Source Intelligence (OSINT) is information about you that’s publicly available or easily obtained: old
+        usernames, photos, relatives, addresses, employer info, school affiliations, court records, and more. The goal is
+        to reduce what’s public and make your accounts hard to take over.
+      </p>
+    </section>
+
+    <section id="accounts" class="mt-10 scroll-mt-24">
+      <h2 class="text-xl font-bold">Accounts: the big 4 controls</h2>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <h3 class="font-bold">1) Unique passwords</h3>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+            Password reuse turns one leak into many account takeovers. Use a password manager and change the “important”
+            accounts first: email, Apple/Google, bank, social.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <h3 class="font-bold">2) MFA (2FA)</h3>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+            Prefer an authenticator app or a security key. SMS is better than nothing, but it’s weaker.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <h3 class="font-bold">3) Recovery security</h3>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+            Attackers often use password resets. Secure your email inbox, set strong recovery options, and remove old phone
+            numbers and emails.
+          </p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+          <h3 class="font-bold">4) Updates</h3>
+          <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+            Keep your phone and laptop updated. Most real-world attacks succeed because devices are unpatched.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="phishing" class="mt-10 scroll-mt-24">
+      <h2 class="text-xl font-bold">Phishing: what to look for (and what to do)</h2>
+      <div class="mt-4 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+        <p class="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+          Most account takeovers start with social engineering: an email, text, phone call, or DM that pressures you into
+          clicking a link or sharing a code.
+        </p>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          <div>
+            <p class="text-sm font-bold">Common red flags</p>
+            <ul class="mt-2 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+              <li><strong>Urgency</strong>: “act now,” “your account will be closed.”</li>
+              <li><strong>Unexpected MFA codes</strong>: you get a code you didn’t request.</li>
+              <li><strong>Link mismatches</strong>: the visible link text doesn’t match where it goes.</li>
+              <li><strong>Payment pressure</strong>: gift cards, crypto, wire transfers.</li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-sm font-bold">Safer response</p>
+            <ul class="mt-2 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+              <li><strong>Don’t click</strong> the link or open attachments.</li>
+              <li><strong>Verify</strong> by navigating to the official site/app yourself.</li>
+              <li><strong>Lock down</strong> the account: change password + enable MFA.</li>
+              <li><strong>Report</strong> scams using official channels (see Resources).</li>
+            </ul>
+          </div>
+        </div>
+        <p class="mt-4 text-sm text-slate-700 dark:text-slate-300">
+          Official guidance:
+          <a
+            class="font-semibold underline underline-offset-4"
+            href="https://www.cisa.gov/secure-our-world"
+            target="_blank"
+            rel="noreferrer"
+            >CISA Secure Our World</a
+          >
+        </p>
+      </div>
+    </section>
+
+    <section id="official-guidance" class="mt-10 scroll-mt-24">
+      <h2 class="text-xl font-bold">Official guidance</h2>
+      <div class="mt-4 rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+        <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-300">
+          <li>
+            <a
+              class="font-semibold underline underline-offset-4"
+              href="https://www.cisa.gov/secure-our-world"
+              target="_blank"
+              rel="noreferrer"
+              >CISA Secure Our World</a
+            >
+          </li>
+          <li>
+            <a
+              class="font-semibold underline underline-offset-4"
+              href="https://www.identitytheft.gov/"
+              target="_blank"
+              rel="noreferrer"
+              >IdentityTheft.gov (FTC)</a
+            >
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="oversharing" class="mt-10 scroll-mt-24">
+      <h2 class="text-xl font-bold">Oversharing traps (common in small towns)</h2>
+      <ul class="mt-4 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+        <li><strong>Routine posts</strong>: “Every Friday at…” can reveal patterns.</li>
+        <li><strong>School + sport + schedule</strong>: kids’ safety can depend on limiting public details.</li>
+        <li><strong>Local groups</strong>: neighborhood pages often expose addresses and family relationships.</li>
+        <li><strong>Photos</strong>: street signs, house numbers, work badges, and license plates are “free OSINT.”</li>
+      </ul>
+    </section>
+  </div>
+
+  <aside class="lg:col-span-4">
+    <div class="sticky top-24 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+      <h2 class="text-sm font-bold">On this page</h2>
+      <ul class="mt-3 space-y-2 text-sm">
+        <li>
+          <a
+            class="underline underline-offset-4 hover:text-slate-900 dark:hover:text-slate-200"
+            href="#threat-model"
+            >Threat model</a
+          >
+        </li>
+        <li>
+          <a class="underline underline-offset-4 hover:text-slate-900 dark:hover:text-slate-200" href="#osint"
+            >OSINT basics</a
+          >
+        </li>
+        <li>
+          <a class="underline underline-offset-4 hover:text-slate-900 dark:hover:text-slate-200" href="#accounts"
+            >Accounts</a
+          >
+        </li>
+        <li>
+          <a class="underline underline-offset-4 hover:text-slate-900 dark:hover:text-slate-200" href="#phishing"
+            >Phishing</a
+          >
+        </li>
+        <li>
+          <a
+            class="underline underline-offset-4 hover:text-slate-900 dark:hover:text-slate-200"
+            href="#official-guidance"
+            >Official guidance</a
+          >
+        </li>
+        <li>
+          <a class="underline underline-offset-4 hover:text-slate-900 dark:hover:text-slate-200" href="#oversharing"
+            >Oversharing traps</a
+          >
+        </li>
+      </ul>
+      <div
+        class="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-700 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-300"
+      >
+        <p class="font-semibold">Recommended next</p>
+        <p class="mt-1">
+          If you only do one thing today, go to
+          <a class="underline underline-offset-4" href="/device-security">Device Security</a>
+          and complete the “phone” section.
+        </p>
+      </div>
+    </div>
+  </aside>
+</div>
+
+

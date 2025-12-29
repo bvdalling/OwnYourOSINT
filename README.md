@@ -13,6 +13,43 @@ As time goes on and I learn more, I may add to this repository, so feel free to 
 Thank you, and good luck out there!
 
 
+## Website (minimal docs-style index)
+
+This repo includes a tiny security & privacy website (Express + EJS templates + Tailwind CDN + Alpine.js) with light/dark mode, a slide-in side-nav, and links to the included PDFs.
+
+- **Run with Docker**:
+
+```bash
+docker compose up --build
+```
+
+- **Open in your browser**: `http://localhost:8080`
+
+### Local preview (no Docker)
+
+If you don't want Docker, run the Express server from the repo root:
+
+```bash
+npm install
+npm start
+```
+
+Then open:
+
+- `http://localhost:3000/`
+
+### Routes
+
+- `/` (Home)
+- `/basics`
+- `/device-security`
+- `/privacy`
+- `/local-resources`
+- `/downloads`
+- `/about`
+
+Old `*.html` routes redirect to the new clean routes.
+
 ## Credit
 
 https://github.com/RealAsira/

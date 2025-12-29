@@ -1,0 +1,110 @@
+<header
+  class="sticky top-0 z-[1000] border-b border-slate-200/70 bg-white/80 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/70">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <div class="flex items-center gap-3">
+      <a href="/" class="flex items-center gap-2 font-bold tracking-tight">
+        <span
+          class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900">
+          SP
+        </span>
+        <span class="hidden sm:inline">Security & Privacy Toolkit</span>
+        <span class="sm:hidden">Security & Privacy</span>
+      </a>
+      <span class="hidden text-sm text-slate-500 dark:text-slate-400 md:inline">Practical, everyday guidance</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <a href="https://github.com/RealAsira/OwnYourOSINT/tree/main" target="_blank" rel="noreferrer"
+        class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white p-2 text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+        aria-label="View on GitHub">
+        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill-rule="evenodd"
+            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.197 22 16.425 22 12.017 22 6.484 17.522 2 12 2z"
+            clip-rule="evenodd" />
+        </svg>
+      </a>
+      <button type="button"
+        class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white p-2 text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+        @click="$store.theme.toggle()" aria-label="Toggle theme">
+        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path
+            d="M10 2a.75.75 0 01.75.75V4a.75.75 0 01-1.5 0V2.75A.75.75 0 0110 2zm0 14a.75.75 0 01.75.75V18a.75.75 0 01-1.5 0v-1.25A.75.75 0 0110 16zM4 9.25a.75.75 0 000 1.5H2.75a.75.75 0 010-1.5H4zm13.25 0a.75.75 0 010 1.5H16a.75.75 0 010-1.5h1.25zM5.05 4.99a.75.75 0 011.06 0l.88.88a.75.75 0 11-1.06 1.06l-.88-.88a.75.75 0 010-1.06zm9.9 9.9a.75.75 0 011.06 0l.88.88a.75.75 0 11-1.06 1.06l-.88-.88a.75.75 0 010-1.06zM15.01 5.05a.75.75 0 010 1.06l-.88.88a.75.75 0 11-1.06-1.06l.88-.88a.75.75 0 011.06 0zM6.93 13.07a.75.75 0 010 1.06l-.88.88a.75.75 0 11-1.06-1.06l.88-.88a.75.75 0 011.06 0zM10 6.25A3.75 3.75 0 1013.75 10 3.754 3.754 0 0010 6.25z" />
+        </svg>
+      </button>
+
+      <button type="button"
+        class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white p-2 text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+        @click="mobileOpen = true" :aria-expanded="mobileOpen" aria-controls="site-sidenav"
+        aria-label="Open navigation">
+        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd"
+            d="M3 5h14a1 1 0 110 2H3a1 1 0 010-2zm0 6h14a1 1 0 110 2H3a1 1 0 010-2zm0 6h14a1 1 0 110 2H3a1 1 0 010-2z"
+            clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+</header>
+
+<!-- Side-nav (slides in from the right on all breakpoints) -->
+<div x-cloak x-show="mobileOpen" style="z-index: 9999;" @keydown.escape.window="mobileOpen = false"
+  class="fixed inset-0 z-[9999]" role="dialog" aria-modal="true">
+  <div class="absolute inset-0 bg-slate-950/40" @click="mobileOpen = false" x-show="mobileOpen"
+    x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-150"
+    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
+  <div id="site-sidenav"
+    class="absolute inset-y-0 right-0 flex w-full max-w-sm flex-col overflow-y-auto border-l border-slate-200 bg-white p-4 shadow-soft dark:border-slate-800 dark:bg-slate-950 sm:p-6"
+    x-show="mobileOpen" x-transition:enter="transform transition ease-out duration-200"
+    x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+    x-transition:leave="transform transition ease-in duration-150" x-transition:leave-start="translate-x-0"
+    x-transition:leave-end="translate-x-full">
+    <div class="flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span
+          class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900">SP</span>
+        <div>
+          <p class="text-sm font-bold leading-tight text-slate-900 dark:text-slate-100">Navigation</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">Security & Privacy Toolkit</p>
+        </div>
+      </div>
+      <button type="button"
+        class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+        @click="mobileOpen = false" aria-label="Close menu">
+        Close
+      </button>
+    </div>
+
+    <nav class="mt-6 grid gap-2 text-base" aria-label="Site navigation">
+      <a href="/" @click="mobileOpen = false"
+        class="rounded-xl px-4 py-3 font-semibold <%= activePage === 'home' ? 'bg-slate-100 dark:bg-slate-900' : 'hover:bg-slate-100 dark:hover:bg-slate-900' %>">Home</a>
+      <a href="/basics" @click="mobileOpen = false"
+        class="rounded-xl px-4 py-3 font-semibold <%= activePage === 'basics' ? 'bg-slate-100 dark:bg-slate-900' : 'hover:bg-slate-100 dark:hover:bg-slate-900' %>">Basics</a>
+      <a href="/device-security" @click="mobileOpen = false"
+        class="rounded-xl px-4 py-3 font-semibold <%= activePage === 'device-security' ? 'bg-slate-100 dark:bg-slate-900' : 'hover:bg-slate-100 dark:hover:bg-slate-900' %>">Device
+        Security</a>
+      <a href="/privacy" @click="mobileOpen = false"
+        class="rounded-xl px-4 py-3 font-semibold <%= activePage === 'privacy' ? 'bg-slate-100 dark:bg-slate-900' : 'hover:bg-slate-100 dark:hover:bg-slate-900' %>">Privacy</a>
+      <a href="/local-resources" @click="mobileOpen = false"
+        class="rounded-xl px-4 py-3 font-semibold <%= activePage === 'local-resources' ? 'bg-slate-100 dark:bg-slate-900' : 'hover:bg-slate-100 dark:hover:bg-slate-900' %>">Local
+        Resources</a>
+      <a href="/downloads" @click="mobileOpen = false"
+        class="rounded-xl px-4 py-3 font-semibold <%= activePage === 'downloads' ? 'bg-slate-100 dark:bg-slate-900' : 'hover:bg-slate-100 dark:hover:bg-slate-900' %>">Downloads</a>
+      <a href="/about" @click="mobileOpen = false"
+        class="rounded-xl px-4 py-3 font-semibold <%= activePage === 'about' ? 'bg-slate-100 dark:bg-slate-900' : 'hover:bg-slate-100 dark:hover:bg-slate-900' %>">About</a>
+    </nav>
+
+    <div class="mt-6 border-t border-slate-200 pt-4 dark:border-slate-800">
+      <a href="https://github.com/RealAsira/OwnYourOSINT/tree/main" target="_blank" rel="noreferrer"
+        class="mb-2 flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
+        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill-rule="evenodd"
+            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.197 22 16.425 22 12.017 22 6.484 17.522 2 12 2z"
+            clip-rule="evenodd" />
+        </svg>
+        View on GitHub
+      </a>
+    </div>
+  </div>
+</div>
