@@ -11,7 +11,9 @@ RUN npm install
 # Copy source files needed for build
 COPY build.js /app/
 COPY views/ /app/views/
-COPY site/assets/ /app/site/assets/
+# Create assets directory structure (assets directory may not exist in repo)
+# The build script handles missing assets gracefully
+RUN mkdir -p /app/site/assets
 COPY *.pdf /app/
 
 # Build static site
