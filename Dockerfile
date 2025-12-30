@@ -1,20 +1,31 @@
-FROM node:20-alpine
+# Build stage
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json /app/package.json
+COPY package.json package-lock.json* /app/
 
-# Install dependencies (EJS + Express). This layer is cached when package.json is unchanged.
-RUN npm install --omit=dev
+# Install dependencies
+RUN npm install
 
-COPY server/ /app/server/
+# Copy source files needed for build
+COPY build.js /app/
 COPY views/ /app/views/
 COPY site/assets/ /app/site/assets/
 COPY *.pdf /app/
 
-ENV PORT=3000
-EXPOSE 3000
+# Build static site
+RUN npm run build
 
-CMD ["npm", "start"]
+# Production stage - serve static files with nginx
+FROM nginx:alpine
+
+# Copy built static site to nginx html directory
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
 
 
