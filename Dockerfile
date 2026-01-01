@@ -14,7 +14,7 @@ COPY views/ /app/views/
 # Create assets directory structure (assets directory may not exist in repo)
 # The build script handles missing assets gracefully
 RUN mkdir -p /app/site/assets
-COPY *.pdf /app/
+COPY assets/ /app/assets/
 
 # Build static site
 RUN npm run build

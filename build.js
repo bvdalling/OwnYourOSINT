@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs').promises;
 const ejs = require('ejs');
+const blog = require('./server/blog');
 
 const projectRoot = path.resolve(__dirname);
 const viewsDir = path.join(projectRoot, 'views');
@@ -15,6 +16,8 @@ const routes = [
     { path: '/privacy', template: 'pages/privacy', outputDir: 'privacy', outputFile: 'index.html', title: 'Privacy · Security & Privacy Toolkit', description: 'Privacy and identity protection: account recovery, credit freezes, data brokers, and safer social sharing.', activePage: 'privacy' },
     { path: '/local-resources', template: 'pages/local-resources', outputDir: 'local-resources', outputFile: 'index.html', title: 'Resources · Security & Privacy Toolkit', description: 'Reporting, recovery, and support resources for common security and privacy incidents.', activePage: 'local-resources' },
     { path: '/downloads', template: 'pages/downloads', outputDir: 'downloads', outputFile: 'index.html', title: 'Downloads · Security & Privacy Toolkit', description: 'Downloadable resources included with this project.', activePage: 'downloads' },
+    { path: '/tools', template: 'pages/tools', outputDir: 'tools', outputFile: 'index.html', title: 'Tools · Security & Privacy Toolkit', description: 'Useful tools and resources for security and privacy research, OSINT, and digital forensics.', activePage: 'tools' },
+    { path: '/blog', template: 'pages/blog/index', outputDir: 'blog', outputFile: 'index.html', title: 'Blog · Security & Privacy Toolkit', description: 'Security and privacy insights, guides, and updates.', activePage: 'blog' },
     { path: '/about', template: 'pages/about', outputDir: 'about', outputFile: 'index.html', title: 'About · Security & Privacy Toolkit', description: 'About this project: goals, scope, disclaimers, and credits for included resources.', activePage: 'about' },
 ];
 
@@ -54,10 +57,11 @@ async function copyPDFs() {
     const pdfsDir = path.join(outputDir, 'pdfs');
     await ensureDir(pdfsDir);
 
-    const files = await fs.readdir(projectRoot);
+    const assetsDir = path.join(projectRoot, 'assets');
+    const files = await fs.readdir(assetsDir);
     for (const file of files) {
         if (file.toLowerCase().endsWith('.pdf')) {
-            const srcPath = path.join(projectRoot, file);
+            const srcPath = path.join(assetsDir, file);
             const destPath = path.join(pdfsDir, file);
             await fs.copyFile(srcPath, destPath);
             console.log(`Copied PDF: ${file}`);
@@ -65,11 +69,12 @@ async function copyPDFs() {
     }
 }
 
-async function renderPage(route) {
+async function renderPage(route, extraData = {}) {
     const data = {
         title: route.title,
         description: route.description,
         activePage: route.activePage,
+        ...extraData,
     };
 
     // First render the page content (body)
@@ -86,23 +91,25 @@ async function renderPage(route) {
 
     // Calculate relative path prefix based on directory depth
     // Root page (outputDir === '') uses './', subdirectories use '../'
-    const depth = route.outputDir ? 1 : 0;
-    const relativePrefix = depth === 0 ? './' : '../';
+    // For blog posts nested in blog/:slug/, depth is 2
+    const depth = route.outputDir ? (route.outputDir.includes('/') ? 2 : 1) : 0;
+    const relativePrefix = depth === 0 ? './' : depth === 1 ? '../' : '../../';
 
     // Update asset paths to be relative
     let finalHtml = html.replace(/href="\/assets\//g, `href="${relativePrefix}assets/`);
     finalHtml = finalHtml.replace(/src="\/assets\//g, `src="${relativePrefix}assets/`);
     // Update PDF paths to be relative
     finalHtml = finalHtml.replace(/href="\/pdfs\//g, `href="${relativePrefix}pdfs/`);
+    // Update API paths - these won't work in static builds, but we'll leave them for now
     // Update internal links to point to directories
     finalHtml = finalHtml.replace(/href="\/([^"]*)"/g, (match, p1) => {
-        // Skip external URLs, anchors, and assets
-        if (match.includes('://') || match.includes('#') || match.includes('/assets/') || match.includes('/pdfs/')) {
+        // Skip external URLs, anchors, assets, and API paths
+        if (match.includes('://') || match.includes('#') || match.includes('/assets/') || match.includes('/pdfs/') || match.includes('/api/')) {
             return match;
         }
         // Home page
         if (p1 === '') {
-            return depth === 0 ? 'href="./"' : 'href="../"';
+            return depth === 0 ? 'href="./"' : depth === 1 ? 'href="../"' : 'href="../../"';
         }
         // Other pages - point to their directory
         if (!p1.includes('.')) {
@@ -150,6 +157,41 @@ async function build() {
             console.error(`Error rendering ${route.template}:`, err);
             throw err;
         }
+    }
+
+    // Render blog posts
+    try {
+        const posts = await blog.loadPosts();
+        console.log(`\nFound ${posts.length} blog post(s)`);
+
+        for (const post of posts) {
+            try {
+                const blogPostRoute = {
+                    template: 'pages/blog/post',
+                    outputDir: `blog/${post.slug}`,
+                    outputFile: 'index.html',
+                    title: `${post.title} · Security & Privacy Toolkit`,
+                    description: post.description,
+                    activePage: 'blog',
+                };
+
+                const html = await renderPage(blogPostRoute, { post });
+                const postOutputDir = path.join(outputDir, blogPostRoute.outputDir);
+                await ensureDir(postOutputDir);
+                const outputPath = path.join(postOutputDir, blogPostRoute.outputFile);
+                await fs.writeFile(outputPath, html, 'utf8');
+                console.log(`Rendered blog post: ${blogPostRoute.outputDir}/${blogPostRoute.outputFile}`);
+            } catch (err) {
+                console.error(`Error rendering blog post ${post.slug}:`, err);
+                throw err;
+            }
+        }
+    } catch (err) {
+        if (err.code !== 'ENOENT') {
+            console.error('Error processing blog posts:', err);
+            throw err;
+        }
+        console.log('No blog posts directory found, skipping blog posts');
     }
 
     console.log(`\n✓ Build complete! Output directory: ${outputDir}`);

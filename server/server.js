@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const expressLayouts = require('express-ejs-layouts');
+const blog = require('./blog');
 
 const app = express();
 
@@ -26,9 +27,11 @@ app.get('/device-security.html', (_req, res) => res.redirect(301, '/device-secur
 app.get('/privacy.html', (_req, res) => res.redirect(301, '/privacy'));
 app.get('/local-resources.html', (_req, res) => res.redirect(301, '/local-resources'));
 app.get('/downloads.html', (_req, res) => res.redirect(301, '/downloads'));
+app.get('/tools.html', (_req, res) => res.redirect(301, '/tools'));
+app.get('/blog.html', (_req, res) => res.redirect(301, '/blog'));
 app.get('/about.html', (_req, res) => res.redirect(301, '/about'));
 
-// Safe PDF serving: only allow PDFs from the repo root by filename.
+// Safe PDF serving: only allow PDFs from the assets directory by filename.
 app.get('/pdfs/:filename', async (req, res) => {
   const requested = req.params.filename;
   const safe = path.basename(requested);
@@ -41,7 +44,7 @@ app.get('/pdfs/:filename', async (req, res) => {
     return res.status(404).send('Not found');
   }
 
-  const pdfPath = path.join(projectRoot, safe);
+  const pdfPath = path.join(projectRoot, 'assets', safe);
 
   try {
     await fs.promises.access(pdfPath, fs.constants.R_OK);
@@ -106,12 +109,81 @@ app.get('/downloads', (_req, res) => {
   });
 });
 
+app.get('/tools', (_req, res) => {
+  res.render('pages/tools', {
+    title: 'Tools · Security & Privacy Toolkit',
+    description: 'Useful tools and resources for security and privacy research, OSINT, and digital forensics.',
+    activePage: 'tools',
+  });
+});
+
 app.get('/about', (_req, res) => {
   res.render('pages/about', {
     title: 'About · Security & Privacy Toolkit',
     description:
       'About this project: goals, scope, disclaimers, and credits for included resources.',
     activePage: 'about',
+  });
+});
+
+// Blog routes
+app.get('/blog', async (_req, res) => {
+  res.render('pages/blog/index', {
+    title: 'Blog · Security & Privacy Toolkit',
+    description: 'Security and privacy insights, guides, and updates.',
+    activePage: 'blog',
+  });
+});
+
+app.get('/blog/:slug', async (req, res) => {
+  const post = await blog.getPost(req.params.slug);
+  if (!post) {
+    return res.status(404).render('pages/blog/post', {
+      title: 'Post Not Found · Security & Privacy Toolkit',
+      description: 'The blog post you\'re looking for doesn\'t exist.',
+      activePage: 'blog',
+      post: null,
+    });
+  }
+  res.render('pages/blog/post', {
+    title: `${post.title} · Security & Privacy Toolkit`,
+    description: post.description,
+    activePage: 'blog',
+    post,
+  });
+});
+
+// Blog API endpoints
+app.get('/api/blog/search', async (req, res) => {
+  const query = req.query.q || '';
+  const results = await blog.searchPosts(query);
+  // Return only metadata for search results
+  res.json(
+    results.map((post) => ({
+      slug: post.slug,
+      title: post.title,
+      description: post.description,
+      date: post.date.toISOString(),
+      tags: post.tags,
+      coverImage: post.coverImage || null,
+    }))
+  );
+});
+
+app.get('/api/blog/posts', async (req, res) => {
+  const offset = parseInt(req.query.offset || '0', 10);
+  const limit = parseInt(req.query.limit || '10', 10);
+  const posts = await blog.getPosts(offset, limit);
+  // Return only metadata for listing
+  res.json({
+    posts: posts.map((post) => ({
+      slug: post.slug,
+      title: post.title,
+      description: post.description,
+      date: post.date.toISOString(),
+      tags: post.tags,
+      coverImage: post.coverImage || null,
+    })),
   });
 });
 

@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Security & Privacy Toolkit</title>
+    <meta name="description"
+        content="Practical security and privacy guidance: checklists, device hardening, identity protection, and reporting resources." />
+
+    <!-- Prevent theme flash before Tailwind loads -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('themeMode') || 'system';
+                var prefersDark =
+                    window.matchMedia &&
+                    window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var isDark = saved === 'dark' || (saved === 'system' && prefersDark);
+                document.documentElement.classList.toggle('dark', isDark);
+            } catch (_) { }
+        })();
+    </script>
+
+    <link rel="stylesheet" href="assets/site.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    boxShadow: {
+                        soft: '0 10px 30px rgba(0,0,0,0.08)',
+                    },
+                },
+            },
+        };
+    </script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="assets/app.js"></script>
+</head>
+
+<body class="h-full bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <a href="#content"
+        class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-soft ring-1 ring-slate-200 dark:bg-slate-900 dark:text-slate-100 dark:ring-slate-800">Skip
+        to content</a>
+
+    <div x-data="{ mobileOpen: false }" x-init="$store.theme.init()" class="min-h-full">
+        <header
+            class="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur dark:border-slate-800/70 dark:bg-slate-950/70">
+            <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="flex items-center gap-2 font-bold tracking-tight">
+                        <span
+                            class="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900">SP</span>
+                        <span class="hidden sm:inline">Security & Privacy Toolkit</span>
+                        <span class="sm:hidden">Security & Privacy</span>
+                    </a>
+                    <span class="hidden text-sm text-slate-500 dark:text-slate-400 md:inline">Practical, everyday
+                        guidance</span>
+                </div>
+
+                <nav class="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
+                    <a href="index.html" aria-current="page"
+                        class="rounded-lg px-3 py-2 text-sm font-semibold text-slate-900 dark:text-white">Home</a>
+                    <a href="basics.html"
+                        class="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900">Basics</a>
+                    <a href="device-security.html"
+                        class="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900">Device
+                        Security</a>
+                    <a href="privacy.html"
+                        class="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900">Privacy</a>
+                    <a href="local-resources.html"
+                        class="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900">Resources</a>
+                    <a href="downloads.html"
+                        class="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900">Downloads</a>
+                    <a href="about.html"
+                        class="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-900">About</a>
+                </nav>
+
+                <div class="flex items-center gap-2">
+                    <a href="https://github.com/RealAsira/OwnYourOSINT/tree/main" target="_blank" rel="noreferrer"
+                        class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white p-2 text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                        aria-label="View on GitHub">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.197 22 16.425 22 12.017 22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <button type="button"
+                        class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white p-2 text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                        @click="$store.theme.toggle()" aria-label="Toggle theme">
+                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path
+                                d="M10 2a.75.75 0 01.75.75V4a.75.75 0 01-1.5 0V2.75A.75.75 0 0110 2zm0 14a.75.75 0 01.75.75V18a.75.75 0 01-1.5 0v-1.25A.75.75 0 0110 16zM4 9.25a.75.75 0 000 1.5H2.75a.75.75 0 010-1.5H4zm13.25 0a.75.75 0 010 1.5H16a.75.75 0 010-1.5h1.25zM5.05 4.99a.75.75 0 011.06 0l.88.88a.75.75 0 11-1.06 1.06l-.88-.88a.75.75 0 010-1.06zm9.9 9.9a.75.75 0 011.06 0l.88.88a.75.75 0 11-1.06 1.06l-.88-.88a.75.75 0 010-1.06zM15.01 5.05a.75.75 0 010 1.06l-.88.88a.75.75 0 11-1.06-1.06l.88-.88a.75.75 0 011.06 0zM6.93 13.07a.75.75 0 010 1.06l-.88.88a.75.75 0 11-1.06-1.06l.88-.88a.75.75 0 011.06 0zM10 6.25A3.75 3.75 0 1013.75 10 3.754 3.754 0 0010 6.25z" />
+                        </svg>
+                    </button>
+
+                    <button type="button"
+                        class="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white p-2 text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800 md:hidden"
+                        @click="mobileOpen = true" :aria-expanded="mobileOpen" aria-label="Open menu">
+                        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M3 5h14a1 1 0 110 2H3a1 1 0 010-2zm0 6h14a1 1 0 110 2H3a1 1 0 010-2zm0 6h14a1 1 0 110 2H3a1 1 0 010-2z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile-first menu (drawer) -->
+            <div x-cloak x-show="mobileOpen" @keydown.escape.window="mobileOpen = false"
+                class="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true">
+                <div class="absolute inset-0 bg-slate-950/40" @click="mobileOpen = false"></div>
+                <div
+                    class="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-2xl border border-slate-200 bg-white p-4 shadow-soft dark:border-slate-800 dark:bg-slate-950">
+                    <div class="flex items-center justify-between">
+                        <p class="text-sm font-bold">Menu</p>
+                        <button type="button"
+                            class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                            @click="mobileOpen = false" aria-label="Close menu">
+                            Close
+                        </button>
+                    </div>
+
+                    <nav class="mt-4 grid gap-2 text-base" aria-label="Mobile navigation">
+                        <a href="index.html" aria-current="page"
+                            class="rounded-xl bg-slate-100 px-4 py-3 font-semibold dark:bg-slate-900">Home</a>
+                        <a href="basics.html"
+                            class="rounded-xl px-4 py-3 font-semibold hover:bg-slate-100 dark:hover:bg-slate-900">Basics</a>
+                        <a href="device-security.html"
+                            class="rounded-xl px-4 py-3 font-semibold hover:bg-slate-100 dark:hover:bg-slate-900">Device
+                            Security</a>
+                        <a href="privacy.html"
+                            class="rounded-xl px-4 py-3 font-semibold hover:bg-slate-100 dark:hover:bg-slate-900">Privacy</a>
+                        <a href="local-resources.html"
+                            class="rounded-xl px-4 py-3 font-semibold hover:bg-slate-100 dark:hover:bg-slate-900">Resources</a>
+                        <a href="downloads.html"
+                            class="rounded-xl px-4 py-3 font-semibold hover:bg-slate-100 dark:hover:bg-slate-900">Downloads</a>
+                        <a href="about.html"
+                            class="rounded-xl px-4 py-3 font-semibold hover:bg-slate-100 dark:hover:bg-slate-900">About</a>
+                    </nav>
+
+                    <div class="mt-4 border-t border-slate-200 pt-4 dark:border-slate-800">
+                        <button type="button"
+                            class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-left text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                            @click="$store.theme.toggle()">
+                            Toggle theme
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main id="content" class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+            <section class="grid gap-8 lg:grid-cols-12 lg:items-start">
+                <div class="lg:col-span-7">
+                    <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl">
+                        Practical <span class="text-slate-600 dark:text-slate-300">security & privacy</span> for
+                        everyday life
+                    </h1>
+                    <p class="mt-4 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+                        This is a plain-English guide for normal people. It focuses on practical steps that reduce risk
+                        from
+                        harassment, identity theft, account takeover, and oversharing—without needing to be a tech
+                        expert.
+                    </p>
+
+                    <div class="mt-6 flex flex-wrap items-center gap-3">
+                        <a href="basics.html"
+                            class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-soft hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200">Start
+                            here</a>
+                        <a href="device-security.html"
+                            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800">Device
+                            checklist</a>
+                        <a href="local-resources.html"
+                            class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-100 dark:hover:bg-slate-800">Resources</a>
+                    </div>
+
+                    <div
+                        class="mt-8 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-amber-950 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-100">
+                        <p class="text-sm font-semibold">If you’re in immediate danger</p>
+                        <p class="mt-1 text-sm leading-relaxed">
+                            Call <strong>911</strong>. This site is educational and can’t respond to emergencies.
+                        </p>
+                    </div>
+                </div>
+
+                <aside class="lg:col-span-5">
+                    <div
+                        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft dark:border-slate-800 dark:bg-slate-900">
+                        <h2 class="text-base font-bold">Quick wins (15 minutes)</h2>
+                        <ul class="mt-4 space-y-3 text-sm text-slate-700 dark:text-slate-300">
+                            <li class="flex gap-3">
+                                <span
+                                    class="mt-0.5 inline-flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-slate-900 text-xs font-bold text-white dark:bg-white dark:text-slate-900">1</span>
+                                <span><strong>Turn on device updates</strong> (iOS/Android, Windows/macOS).</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span
+                                    class="mt-0.5 inline-flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-slate-900 text-xs font-bold text-white dark:bg-white dark:text-slate-900">2</span>
+                                <span><strong>Enable MFA</strong> (prefer an authenticator app over SMS).</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span
+                                    class="mt-0.5 inline-flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-slate-900 text-xs font-bold text-white dark:bg-white dark:text-slate-900">3</span>
+                                <span><strong>Lock down social profiles</strong> and remove your home address from
+                                    public posts.</span>
+                            </li>
+                            <li class="flex gap-3">
+                                <span
+                                    class="mt-0.5 inline-flex h-6 w-6 flex-none items-center justify-center rounded-lg bg-slate-900 text-xs font-bold text-white dark:bg-white dark:text-slate-900">4</span>
+                                <span><strong>Stop password reuse</strong> (use a password manager).</span>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="mt-12">
+                <h2 class="text-xl font-extrabold tracking-tight">Choose your path</h2>
+                <p class="mt-2 text-slate-700 dark:text-slate-300">
+                    Most people are trying to solve one of these problems. Pick the closest match.
+                </p>
+
+                <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <a href="privacy.html#identity"
+                        class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700">
+                        <h3 class="text-base font-bold">I’m worried about identity theft</h3>
+                        <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                            Freeze credit, reduce data broker exposure, and monitor accounts.
+                        </p>
+                        <p class="mt-3 text-sm font-semibold text-slate-900 dark:text-white">Go to identity protection →
+                        </p>
+                    </a>
+
+                    <a href="device-security.html#phone"
+                        class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700">
+                        <h3 class="text-base font-bold">My phone is the problem</h3>
+                        <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                            Hardening steps for iPhone/Android + what to check if you feel watched.
+                        </p>
+                        <p class="mt-3 text-sm font-semibold text-slate-900 dark:text-white">Go to phone checklist →</p>
+                    </a>
+
+                    <a href="basics.html#osint"
+                        class="group rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-0.5 hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700">
+                        <h3 class="text-base font-bold">People can find too much about me</h3>
+                        <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                            Learn OSINT basics, set boundaries, and reduce your searchable footprint.
+                        </p>
+                        <p class="mt-3 text-sm font-semibold text-slate-900 dark:text-white">Go to OSINT basics →</p>
+                    </a>
+                </div>
+            </section>
+
+            <section class="mt-12">
+                <h2 class="text-xl font-extrabold tracking-tight">Trusted official resources</h2>
+                <p class="mt-2 text-slate-700 dark:text-slate-300">
+                    When you need “the real process” (reporting, recovery, official guidance), start with these sources.
+                </p>
+
+                <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <a href="local-resources.html#official-sites"
+                        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700">
+                        <h3 class="text-base font-bold">Local agency sites (optional)</h3>
+                        <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                            Examples of what to look for: police/sheriff, campus safety, victim services, and court
+                            resources.
+                        </p>
+                        <p class="mt-3 text-sm font-semibold text-slate-900 dark:text-white">Open resources →</p>
+                    </a>
+
+                    <a href="https://reportfraud.ftc.gov/" target="_blank" rel="noreferrer"
+                        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700">
+                        <h3 class="text-base font-bold">Report scams (FTC)</h3>
+                        <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                            Use the FTC’s official portal to report scams and fraud.
+                        </p>
+                        <p class="mt-3 text-sm font-semibold text-slate-900 dark:text-white">Report fraud →</p>
+                    </a>
+
+                    <a href="https://www.cisa.gov/news-events/news/home-network-security" target="_blank"
+                        rel="noreferrer"
+                        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700">
+                        <h3 class="text-base font-bold">Home network basics (CISA)</h3>
+                        <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                            Official guidance for securing your home router and Wi‑Fi network.
+                        </p>
+                        <p class="mt-3 text-sm font-semibold text-slate-900 dark:text-white">Open guidance →</p>
+                    </a>
+
+                    <a href="https://www.identitytheft.gov/" target="_blank" rel="noreferrer"
+                        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700">
+                        <h3 class="text-base font-bold">IdentityTheft.gov (FTC)</h3>
+                        <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                            Recovery plan and documentation if your identity is used fraudulently.
+                        </p>
+                        <p class="mt-3 text-sm font-semibold text-slate-900 dark:text-white">Start recovery →</p>
+                    </a>
+
+                    <a href="https://www.ic3.gov/" target="_blank" rel="noreferrer"
+                        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700">
+                        <h3 class="text-base font-bold">Report cybercrime (IC3)</h3>
+                        <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                            FBI’s Internet Crime Complaint Center for online crime complaints.
+                        </p>
+                        <p class="mt-3 text-sm font-semibold text-slate-900 dark:text-white">File a complaint →</p>
+                    </a>
+
+                    <a href="https://www.cisa.gov/secure-our-world" target="_blank" rel="noreferrer"
+                        class="rounded-2xl border border-slate-200 bg-white p-5 shadow-soft hover:border-slate-300 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700">
+                        <h3 class="text-base font-bold">CISA Secure Our World</h3>
+                        <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                            Federal guidance on phishing, MFA, software updates, and safe practices.
+                        </p>
+                        <p class="mt-3 text-sm font-semibold text-slate-900 dark:text-white">Open CISA →</p>
+                    </a>
+                </div>
+            </section>
+
+            <section class="mt-12 grid gap-6 lg:grid-cols-12">
+                <div class="lg:col-span-7">
+                    <div
+                        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft dark:border-slate-800 dark:bg-slate-900">
+                        <h2 class="text-lg font-extrabold tracking-tight">Local reality: small communities amplify
+                            exposure</h2>
+                        <p class="mt-2 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                            In smaller communities, a little information goes a long way. Your name + school + employer
+                            + “Logan UT”
+                            can be enough to find addresses, relatives, old usernames, and photos.
+                        </p>
+                        <ul class="mt-4 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                            <li><strong>Reduce your “join points”</strong>: don’t use the same username everywhere.</li>
+                            <li><strong>Limit address clues</strong>: avoid posting street signs, house numbers, or
+                                routine routes.</li>
+                            <li><strong>Use layers</strong>: lock accounts, limit public info, and secure devices.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lg:col-span-5">
+                    <div
+                        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-soft dark:border-slate-800 dark:bg-slate-900">
+                        <h2 class="text-lg font-extrabold tracking-tight">Downloads in this repo</h2>
+                        <p class="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                            These are included with this project and may be helpful for audits and checklists.
+                        </p>
+                        <ul class="mt-4 space-y-2 text-sm">
+                            <li>
+                                <a class="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-600 dark:text-white dark:decoration-slate-600"
+                                    href="../Own%20Your%20OSINT.pdf">Own Your OSINT (PDF)</a>
+                            </li>
+                            <li>
+                                <a class="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-600 dark:text-white dark:decoration-slate-600"
+                                    href="../Privacy%20Audit%20Worksheet.pdf">Privacy Audit Worksheet (PDF)</a>
+                            </li>
+                            <li>
+                                <a class="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-600 dark:text-white dark:decoration-slate-600"
+                                    href="../Privacy%20Checklist%20Worksheet.pdf">Privacy Checklist Worksheet (PDF)</a>
+                            </li>
+                            <li>
+                                <a class="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4 hover:decoration-slate-600 dark:text-white dark:decoration-slate-600"
+                                    href="../Intro%20To%20Mobile%20Forensics.pdf">Intro To Mobile Forensics (PDF)</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="border-t border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
+            <div class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-600 dark:text-slate-400 sm:px-6">
+                <div class="grid gap-6 lg:grid-cols-12">
+                    <div class="lg:col-span-8">
+                        <p class="font-semibold text-slate-900 dark:text-slate-100">Educational only</p>
+                        <p class="mt-2 leading-relaxed">
+                            This site is not legal advice, not medical advice, and not emergency services. If you are in
+                            immediate
+                            danger, call <strong>911</strong>.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-4">
+                        <p class="font-semibold text-slate-900 dark:text-slate-100">Next steps</p>
+                        <ul class="mt-2 space-y-1">
+                            <li><a class="underline underline-offset-4 hover:text-slate-900 dark:hover:text-slate-200"
+                                    href="device-security.html">Harden your devices</a></li>
+                            <li><a class="underline underline-offset-4 hover:text-slate-900 dark:hover:text-slate-200"
+                                    href="privacy.html">Protect accounts & identity</a></li>
+                            <li><a class="underline underline-offset-4 hover:text-slate-900 dark:hover:text-slate-200"
+                                    href="local-resources.html">Find resources</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="mt-8 text-xs">© Security & Privacy Toolkit. Built with raw HTML, Tailwind (CDN), and
+                    Alpine.js.</p>
+                <p class="mt-4">
+                    <a href="https://github.com/RealAsira/OwnYourOSINT/tree/main" target="_blank" rel="noreferrer" class="inline-flex items-center gap-2 font-semibold text-slate-900 hover:text-slate-700 dark:text-slate-100 dark:hover:text-slate-300">
+                        <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.197 22 16.425 22 12.017 22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                        </svg>
+                        View on GitHub
+                    </a>
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+
+</html>
